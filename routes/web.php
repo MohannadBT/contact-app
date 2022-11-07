@@ -24,6 +24,7 @@ Route::get('/', function () {
     </div>
     ";
 
+    
     return $html;
     //return view('welcome');
 });
