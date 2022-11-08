@@ -14,19 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
-    $html = "
-    <h1>Contact app</h1>
-    <div>
-        <a href='" . route('contacts.index') . "'>All contacts</a>
-        <a href='" . route('contacts.creat') . "'>Creat contacts</a>
-        <a href='" . route('contacts.show', 1) . "'>show contact</a>
-    </div>
-    ";
-
-    
-    return $html;
-    //return view('welcome');
+    return view('welcome');
 });
 
 Route::fallback(function () {
@@ -34,22 +22,17 @@ Route::fallback(function () {
 });
 
 Route::prefix('admin')->group(function () {
-    Route::get('/contacts', function () {
 
-        return "<h1>All contacts</h1>"; 
-    
+    Route::get('/contacts', function () {
+        return view('cotntacts.Index'); 
     })->name('contacts.index');
     
     Route::get('/contacts/creat', function () {
-    
         return "<h1>Creat a contact</h1>";
-    
     })->name('contacts.creat');
 
     Route::get('/contacts/{id}', function ($id) {
-
         return "contact " . $id;
-    
     })->name('contacts.show', 1)->whereNumber('id'); //also can use: ->where('id', '[0-9]+')
 });
 
