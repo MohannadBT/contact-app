@@ -11,11 +11,13 @@
 
 <body>
 
-    <h1>contacts App</h1>
+    <h1>Contact details</h1>
     <div>
-        <a href='{{ route('contacts.index') }}'>All contacts</a>
-        {{-- <a href='{{ route('contacts.create') }}'>Creat contacts</a>
-        <a href='{{ route('contacts.show', 1) }}'>show contact</a> --}}
+        <p> Name: {{ $contact['name'] }} </p>
+        <p> Phone: {{ $contact['phone'] }} </p>
+    </div>
+    <div>
+        <a href='{{ route('contacts.index') }}'>Back to all contacts</a>
     </div>
 </body>
 </html>

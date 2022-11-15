@@ -13,8 +13,13 @@
 
     <h1>All Contacts</h1>
     <div>
-        <a href='{{ route('contacts.creat') }}'>Creat contacts</a>
-        <a href='{{ route('contacts.show', 1) }}'>show contact</a>
+        <a href='{{ route('contacts.create') }}'>Creat contacts</a>
+
+        <?php foreach ($contacts as $id => $contact): ?>
+            <p> {{ $contact['name'] }} | {{ $contact['phone'] }} | <a href='{{ route('contacts.show', $id) }}'>show</a> </p>
+        <?php endforeach ?>
+
+        
     </div>
 </body>
 </html>
