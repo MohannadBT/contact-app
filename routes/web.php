@@ -32,10 +32,14 @@ Route::fallback(function () {
 Route::prefix('admin')->group(function () {
 
     Route::get('/contacts', function () {
+        $companies = [
+            1 => ['name' => 'Company One', 'contacts' => 3],
+            2 => ['name' => 'Company Two', 'contacts' => 5],
+        ];
         
         $contacts = getContacts();
 
-        return view('contacts.index', compact('contacts')); // compact() is the same as ['contacts' => $contacts] 
+        return view('contacts.index', compact('contacts', 'companies')); // compact() is the same as ['contacts' => $contacts] 
     })->name('contacts.index');
     
     Route::get('/contacts/creat', function () {

@@ -17,34 +17,8 @@
                     </div>
                   </div>
                 <div class="card-body">
-                  <div class="row">
-                    <div class="col-md-6"></div>
-                    <div class="col-md-6">
-                      <div class="row">
-                        <div class="col">
-                          <select class="custom-select">
-                            <option value="" selected>All Companies</option>
-                            <option value="1">Company One</option>
-                            <option value="2">Company Two</option>
-                            <option value="3">Company Three</option>
-                          </select>
-                        </div>
-                        <div class="col">
-                          <div class="input-group mb-3">
-                            <input type="text" class="form-control" placeholder="Search..." aria-label="Search..." aria-describedby="button-addon2">
-                            <div class="input-group-append">
-                                <button class="btn btn-outline-secondary" type="button">
-                                    <i class="fa fa-refresh"></i>
-                                  </button>
-                              <button class="btn btn-outline-secondary" type="button" id="button-addon2">
-                                <i class="fa fa-search"></i>
-                              </button>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+                  @include('contacts._filter') // ('contacts._filter', ['companies' => $companies])
+
                   <table class="table table-striped table-hover">
                     <thead>
                       <tr>
@@ -56,21 +30,23 @@
                         <th scope="col">Actions</th>
                       </tr>
                     </thead>
-                    <tbody>
-                        <?php foreach ($contacts as $id => $contact): ?>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>{{ $contact['name'] }}</td>
-                        <td>{{ $contact['phone'] }}</td>
-                        <td>alfred@test.com</td>
-                        <td>Company one</td>
-                        <td width="150">
-                          <a href="{{ route('contacts.show', $id) }}" class="btn btn-sm btn-circle btn-outline-info" title="Show"><i class="fa fa-eye"></i></a>
-                          <a href="form.html" class="btn btn-sm btn-circle btn-outline-secondary" title="Edit"><i class="fa fa-edit"></i></a>
-                          <a href="#" class="btn btn-sm btn-circle btn-outline-danger" title="Delete" onclick="confirm('Are you sure?')"><i class="fa fa-times"></i></a>
-                        </td>
-                      </tr>
-                      <?php endforeach ?>
+                    <tbody> 
+                      @forelse ($contacts as $id => $contact)
+                        <tr>
+                          <th scope="row">1</th>
+                          <td>{{ $contact['name'] }}</td>
+                          <td>{{ $contact['phone'] }}</td>
+                          <td>alfred@test.com</td>
+                          <td>Company one</td>
+                          <td width="150">
+                            <a href="{{ route('contacts.show', $id) }}" class="btn btn-sm btn-circle btn-outline-info" title="Show"><i class="fa fa-eye"></i></a>
+                            <a href="form.html" class="btn btn-sm btn-circle btn-outline-secondary" title="Edit"><i class="fa fa-edit"></i></a>
+                            <a href="#" class="btn btn-sm btn-circle btn-outline-danger" title="Delete" onclick="confirm('Are you sure?')"><i class="fa fa-times"></i></a>
+                          </td>
+                        </tr>
+                      @empty
+                        <p> No Contacts </p>
+                      @endforelse
                     </tbody>
                   </table> 
   
