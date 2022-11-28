@@ -17,7 +17,7 @@
                     </div>
                   </div>
                 <div class="card-body">
-                  @include('contacts._filter') // ('contacts._filter', ['companies' => $companies])
+                  @include('contacts._filter') {{-- ('contacts._filter', ['companies' => $companies]) --}} 
 
                   <table class="table table-striped table-hover">
                     <thead>
