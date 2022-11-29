@@ -1,6 +1,12 @@
 <?php
 
+
+use App\Http\Controllers\ActivityController;
+use App\Http\Controllers\TagController;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
+use App\Http\controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,23 +20,43 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', WelcomeController::class);
 
-Route::fallback(function () {
-        return view('welcome');
-});
+Route::fallback(WelcomeController::class);
 
-// Route::prefix('admin')->group(function () {
 
-    Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
+//if u we have singlare (diffrenete) controller 
+Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index'); 
+Route::get('/contacts/creat', [ContactController::class, 'create'])->name('contacts.create');
+Route::get('/contacts/{id}', [ContactController::class, 'show'])->name('contacts.show',1)->whereNumber('id');
+Route::resource('/companies', CompanyController::class);
+Route::resources([
+    '/tags' => TagController::class ,
+    '/tasks' => TaskController::class
+]);
+Route::resource('/activities', ActivityController::class)->only([ // ->except(['index' , 'show'])  /* to shhow the same resoulte */
+    'create', 'store', 'update', 'edit', 'destroy'
+]);
+
+
+
+//grouping routers if we have the same countroller
+// Route::controller(ContactController::class)->group(function() {
+//     Route::get('/contacts', 'index')->name('contacts.index');
     
-    Route::get('/contacts/creat', [ContactController::class, 'create'])->name('contacts.create');
+//     Route::get('/contacts/creat', 'create')->name('contacts.create');
 
-    // Route::get('/contacts/{id}', [ContactController::class 'show'])->name('contacts.show', 1)->whereNumber('id'); //also can use: ->where('id', '[0-9]+')
-    Route::get('/contacts/{id}', [ContactController::class, 'show'])->name('contacts.show',1)->whereNumber('id');
-    // });
+//     Route::get('/contacts/{id}', 'show')->name('contacts.show',1)->whereNumber('id'); //also can use: ->where('id', '[0-9]+')
+// });
+
+// another way is by grouping it with the also the name finction
+// Route::controller(ContactController::class)->name('contacts.')->group(function() {
+//     Route::get('/contacts', 'index')->name('index');
+    
+//     Route::get('/contacts/creat', 'create')->name('create');
+
+//     Route::get('/contacts/{id}', 'show')->name('show',1)->whereNumber('id');
+// });
 
 Route::get('/companies/{name?}', function ($name = null) {
 
