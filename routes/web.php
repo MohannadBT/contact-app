@@ -6,6 +6,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\ContactNoteController;
 use App\Http\controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -34,10 +35,23 @@ Route::resources([
     '/tags' => TagController::class ,
     '/tasks' => TaskController::class
 ]);
-Route::resource('/activities', ActivityController::class)->only([ // ->except(['index' , 'show'])  /* to shhow the same resoulte */
-    'create', 'store', 'update', 'edit', 'destroy'
-]);
+Route:: resource('/contacts.notes', ContactNoteController::class)->shallow();
 
+/* To select soem of the methods from a resource */
+// Route::resource('/activities', ActivityController::class)->only([ // ->except(['index' , 'show'])  /* to shhow the same resoulte */
+//     'create', 'store', 'update', 'edit', 'destroy'
+// ]);
+
+/* To change the route naming for the methods */
+// Route::resource('/activities', ActivityController::class)->names([ 
+//     'index' => 'activities.all',
+//     'create' => 'activities.view', 
+// ]);
+
+/* how to change the parameters for a route resource */
+Route::resource('/activities', ActivityController::class)->parameters([ 
+    'activities' => 'active'
+]);
 
 
 //grouping routers if we have the same countroller
