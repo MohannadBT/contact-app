@@ -24,24 +24,25 @@
                       <tr>
                         <th scope="col">#</th>
                         <th scope="col">First Name</th>
-                        <th scope="col">Phone</th>
+                        <th scope="col">Last NAme</th>
                         <th scope="col">Email</th>
                         <th scope="col">Company</th>
                         <th scope="col">Actions</th>
                       </tr>
                     </thead>
                     <tbody> 
-                      @forelse ($contacts as $id => $contact)
+                      {{-- @forelse ($contacts as $id => $contact)
 
-                        {{-- @continue($id == 1)
-                        @break($id == 3) --}}
+                        @continue($id == 1)
+                        @break($id == 3) 
 
                         @include('contacts._contact', ['contact' => $contact])
                       @empty
                         <p> No Contacts </p>
-                      @endforelse
+                      @endforelse --}}
 
-                      {{-- @each('contacts._contact', $contacts, 'contact', 'contacts._empty')  another approch that doesn't inherite the parent var--}}
+                      {{-- another approch that doesn't inherite the parent var --}}
+                      @each('contacts._contact', $contacts, 'contact', 'contacts._empty') 
 
                     </tbody>
                   </table> 

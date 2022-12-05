@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Repositories\CompanyRepository;
+use App\Models\Contact;
 
 use Illuminate\Http\Request;
 
@@ -24,13 +25,9 @@ class ContactController extends Controller
 
     public function index()
     {
-        // $companies = [
-        //     1 => ['name' => 'Company One', 'contacts' => 3],
-        //     2 => ['name' => 'Company Two', 'contacts' => 5],
-        // ];
         
         $companies = $this->company->pluck();
-        $contacts = $this->getContacts();
+        $contacts = Contact::latest()->get();
 
         return view('contacts.index', compact('contacts', 'companies')); // compact() is the same as ['contacts' => $contacts] 
     }
@@ -42,21 +39,11 @@ class ContactController extends Controller
     
     public function show($id)
     {
-        $contacts = $this->getContacts();
+        $contact = Contact::findOrFail($id);
 
-        abort_if(!isset($contacts[$id]), 404);
-        // abort_unless(isset($contacts[$id]), 404); the same as the one above but u change the condition
+        // abort_unless(!empty($contact), 404); 
+        // abort_if(!isset($contacts[$id]), 404); //the same as the one above but u change the condition(!issert -> issert)
 
-        $contact = $contacts[$id];
         return view('contacts.show')->with('contact', $contact); // u can send more than 1 value by chaining it like this : ->with()->with()...
     }
-
-    protected function getContacts (){
-        return [
-            1 => ['name' => 'Name 1', 'phone' => '1234567890'],
-            2 => ['name' => 'Name 2', 'phone' => '2345678901'],
-            3 => ['name' => 'Name 3', 'phone' => '3456789012'],
-        ];
-    }
-
 }
