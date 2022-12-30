@@ -16,7 +16,7 @@ class ContactController extends Controller
 
     public function __construct(CompanyRepository $company) 
     {
-        $this-> company = $company;
+        $this->company = $company;
     }
     */
     public function __construct(protected CompanyRepository $company)
