@@ -48,7 +48,14 @@ class ContactController extends Controller
 
     public function create()
     {
-        return view('contacts.create');
+        $companies = $this->company->pluck();
+
+        return view('contacts.create', compact('companies'));
+    }
+
+    public function store ()
+    {
+        
     }
 
     public function show($id)
