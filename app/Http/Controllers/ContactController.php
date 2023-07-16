@@ -53,9 +53,9 @@ class ContactController extends Controller
         return view('contacts.create', compact('companies'));
     }
 
-    public function store ()
+    public function store (Request $request)
     {
-        
+        dd($request);
     }
 
     public function show($id)
