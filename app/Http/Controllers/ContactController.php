@@ -40,6 +40,7 @@ class ContactController extends Controller
     {
         $companies = $this->company->pluck();
         $contact = new Contact();
+        
         return view('contacts.create', compact('companies', 'contact'));
     }
 
