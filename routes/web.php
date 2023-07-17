@@ -25,14 +25,7 @@ Route::get('/', WelcomeController::class);
 
 Route::fallback(WelcomeController::class);
 
-
-//if u we have singlare (diffrenete) controller
-Route::get('/contacts', [ContactController::class, 'index'])->name('contacts.index');
-Route::post('/contacts', [ContactController::class, 'store'])->name('contacts.store');
-Route::get('/contacts/creat', [ContactController::class, 'create'])->name('contacts.create');
-Route::get('/contacts/{id}', [ContactController::class, 'show'])->name('contacts.show',1)->whereNumber('id');
-Route::get('/contacts/{id}/edit', [ContactController::class, 'edit'])->name('contacts.edit');
-Route::put('/contacts/{id}', [ContactController::class, 'update'])->name('contacts.update');
+Route::resource('/contacts', ContactController::class);
 Route::resource('/companies', CompanyController::class);
 Route::resources([
     '/tags' => TagController::class ,

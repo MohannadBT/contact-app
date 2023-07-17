@@ -31,8 +31,13 @@ class ContactController extends Controller
             if ($companyId = request()->query("company_id")) {
                 $query->where("company_id", $companyId);
             }
+        })->where(function ($query) {
+            if ($search = request()->query('search')) {
+                $query->where("first_name", "LIKE", "%{$search}%");
+                $query->orWhere("last_name", "LIKE", "%{$search}%");
+                $query->orWhere("email", "LIKE", "%{$search}%");
+            }
         })->paginate(10);
-
         return view('contacts.index', compact('contacts', 'companies')); // compact() is the same as ['contacts' => $contacts]
     }
 
@@ -40,7 +45,7 @@ class ContactController extends Controller
     {
         $companies = $this->company->pluck();
         $contact = new Contact();
-        
+
         return view('contacts.create', compact('companies', 'contact'));
     }
 
@@ -86,5 +91,12 @@ class ContactController extends Controller
         ]);
         $contact->update($request->all());
         return redirect()->route('contacts.index')->with('message', 'Contact has been updated successfully');
+    }
+
+    public function destroy($id)
+    {
+        $contact = Contact::findOrFail($id);
+        $contact->delete();
+        return redirect()->route('contacts.index')->with('message', 'Contact has been removed successfully');
     }
 }
