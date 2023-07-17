@@ -1,8 +1,7 @@
 @extends('layouts.main')
-
 @section('title', 'Contact App | All contacts')
-
 @section('content')
+
     <main class="py-5">
         <div class="container">
             <div class="row">
@@ -19,7 +18,9 @@
                         </div>
                         <div class="card-body">
                             @include('contacts._filter') {{-- ('contacts._filter', ['companies' => $companies]) --}}
-
+                            @if ($message = session('message'))
+                                <div class="alert alert-success">{{ $message }}</div>
+                            @endif
                             <table class="table table-striped table-hover">
                                 <thead>
                                     <tr>

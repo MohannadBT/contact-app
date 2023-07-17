@@ -27,16 +27,6 @@ class ContactController extends Controller
     {
 
         $companies = $this->company->pluck();
-        // $contacts = Contact::latest()->paginate(10);
-        // $contactsCollection = Contact::latest()->get();
-        // $perPage = 10;
-        // $currentPage = request()->query('page', 1);
-        // $items = $contactsCollection->slice(($currentPage * $perPage) - $perPage, $perPage);
-        // $total = $contactsCollection->count();
-        // $contacts = new LengthAwarePaginator($items, $total, $perPage, $currentPage, [
-        //     'path' => request()->url(),
-        //     'query' => request()->query()
-        // ]);
         $contacts = Contact::latest()->where(function ($query) {
             if ($companyId = request()->query("company_id")) {
                 $query->where("company_id", $companyId);
@@ -49,8 +39,8 @@ class ContactController extends Controller
     public function create()
     {
         $companies = $this->company->pluck();
-
-        return view('contacts.create', compact('companies'));
+        $contact = new Contact();
+        return view('contacts.create', compact('companies', 'contact'));
     }
 
     public function store (Request $request)
@@ -63,16 +53,37 @@ class ContactController extends Controller
             'address' => 'nullable',
             'company_id' => 'required|exists:companies,id'
         ]);
-        dd($request->all());
+        Contact::create($request->all());
+        return redirect()->route('contacts.index')->with('message', 'Contact has been added successfully');
     }
 
     public function show($id)
     {
         $contact = Contact::findOrFail($id);
-
         // abort_unless(!empty($contact), 404);
         // abort_if(!isset($contacts[$id]), 404); //the same as the one above but u change the condition(!issert -> issert)
-
         return view('contacts.show')->with('contact', $contact); // u can send more than 1 value by chaining it like this : ->with()->with()...
+    }
+
+    public function edit($id)
+    {
+        $companies = $this->company->pluck();
+        $contact = Contact::findOrFail($id);
+        return view('contacts.edit', compact('companies', 'contact'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $contact = Contact::findOrFail($id);
+        $request->validate([
+            'first_name' => 'required|string|max:50',
+            'last_name' => 'required|string|max:50',
+            'email' => 'required|email',
+            'phone' => 'nullable',
+            'address' => 'nullable',
+            'company_id' => 'required|exists:companies,id'
+        ]);
+        $contact->update($request->all());
+        return redirect()->route('contacts.index')->with('message', 'Contact has been updated successfully');
     }
 }
