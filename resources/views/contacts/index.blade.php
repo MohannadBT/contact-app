@@ -42,16 +42,15 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @php
+                                    $showTrashButtons = request()->query('trash') ? true : false
+                                    @endphp
                                     @forelse ($contacts as $index => $contact)
                                         @include('contacts._contact', ['contact' => $contact, 'index' => $index])
-
                                     @empty
-
                                         @include('contacts._empty')
                                     @endforelse
-
                                     {{-- another approch that doesn't inherite the parent var --}}
-
                                     {{-- @each('contacts._contact', $contacts, 'contact', 'contacts._empty')
                                         @include('contacts._empty')
                                     @endforelse --}}
