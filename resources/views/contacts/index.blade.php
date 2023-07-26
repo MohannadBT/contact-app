@@ -43,7 +43,7 @@
                                 </thead>
                                 <tbody>
                                     @php
-                                    $showTrashButtons = request()->query('trash') ? true : false
+                                        $showTrashButtons = request()->query('trash') ? true : false
                                     @endphp
                                     @forelse ($contacts as $index => $contact)
                                         @include('contacts._contact', ['contact' => $contact, 'index' => $index])
