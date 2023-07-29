@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Contact extends Model
 {
-    use HasFactory;
+    use HasFactory, SoftDeletes;
 
     protected $fillable = ['first_name', 'last_name', 'email', 'phone', 'address', 'company_id'];
 
@@ -22,10 +22,5 @@ class Contact extends Model
     public function tasks()
     {
         return $this->hasMany(Task::class);
-    }
-
-    protected static function booted()
-    {
-        static::addGlobalScope(new SimpleSoftDeletingScope);
     }
 }
