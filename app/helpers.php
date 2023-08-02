@@ -6,7 +6,6 @@ function sortable($label, $column = null)
 {
     $column = $column ?? Str::snake($label);
     $sortBy = request()->query('sort_by');
-
     $direction = "";
     if (ltrim($sortBy, '-') === $column) {
         $direction = strpos($sortBy, '-') === 0 ? "desc" : "asc";
