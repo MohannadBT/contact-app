@@ -46,8 +46,8 @@ Route::middleware(['auth'])->group(function () {
         'activities' => 'active'
     ]);
 });
-/* To select soem of the methods from a resource */
-// Route::resource('/activities', ActivityController::class)->only([ // ->except(['index' , 'show'])  /* to shhow the same resoulte */
+/* To select some of the methods from a resource */
+// Route::resource('/activities', ActivityController::class)->only([ // ->except(['index' , 'show'])  /* to show the same result */
 //     'create', 'store', 'update', 'edit', 'destroy'
 // ]);
 
@@ -60,20 +60,20 @@ Route::middleware(['auth'])->group(function () {
 
 
 
-//grouping routers if we have the same countroller
+//grouping routers if we have the same controller
 // Route::controller(ContactController::class)->group(function() {
 //     Route::get('/contacts', 'index')->name('contacts.index');
 
-//     Route::get('/contacts/creat', 'create')->name('contacts.create');
+//     Route::get('/contacts/create', 'create')->name('contacts.create');
 
 //     Route::get('/contacts/{id}', 'show')->name('contacts.show',1)->whereNumber('id'); //also can use: ->where('id', '[0-9]+')
 // });
 
-// another way is by grouping it with the also the name finction
+// another way is by grouping it with the also the name function
 // Route::controller(ContactController::class)->name('contacts.')->group(function() {
 //     Route::get('/contacts', 'index')->name('index');
 
-//     Route::get('/contacts/creat', 'create')->name('create');
+//     Route::get('/contacts/create', 'create')->name('create');
 
 //     Route::get('/contacts/{id}', 'show')->name('show',1)->whereNumber('id');
 // });
