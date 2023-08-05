@@ -18,9 +18,11 @@ class FortifyServiceProvider extends ServiceProvider
     /**
      * Register any application services.
      */
-    public function register(): void
+    public function register()
     {
-        //
+        Fortify::registerView(function () {
+            return view('auth.register');
+        });
     }
 
     /**
