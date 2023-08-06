@@ -6,6 +6,7 @@ use App\Http\Controllers\TagController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\CompanyController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\Settings\ProfileController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ContactNoteController;
 use App\Http\controllers\WelcomeController;
@@ -28,6 +29,7 @@ Route::fallback(WelcomeController::class);
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', DashboardController::class);
+    Route::get('/settings/profile-information', ProfileController::class)->name('user-profile-information.edit');
     Route::resource('/contacts', ContactController::class);
     Route::delete('/contacts/{contact}/restore', [ContactController::class, 'restore'])
         ->name('contacts.restore')
