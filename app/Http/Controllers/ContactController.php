@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ContactRequest;
-use App\Repositories\CompanyRepository;
+use App\Models\Company;
 use Illuminate\Http\Request;
 use App\Models\Contact;
 use Illuminate\Support\Facades\DB;
@@ -11,24 +11,15 @@ use Illuminate\Pagination\LengthAwarePaginator;
 
 class ContactController extends Controller
 {
-    /*
-    * another way of getting the repository
-
-    protected $company;
-
-    public function __construct(CompanyRepository $company)
+    protected function userCompanies()
     {
-        $this->company = $company;
-    }
-    */
-    public function __construct(protected CompanyRepository $company)
-    {
+        return Company::forUser(auth()->user())->orderBy('name')->pluck('name', 'id');
     }
 
     public function index()
     {
 
-        $companies = $this->company->pluck();
+        $companies = $this->userCompanies();
         $query = Contact::query();
         if (request()->query('trash')) {
             $query->onlyTrashed();
@@ -37,13 +28,14 @@ class ContactController extends Controller
             ->allowedSorts(['first_name', 'last_name', 'email'], "-id")
             ->allowedFilters('company_id')
             ->allowedSearch(['first_name', 'last_name', 'email'])
+            ->forUser(auth()->user())
             ->paginate(10);
         return view('contacts.index', compact('contacts', 'companies')); // compact() is the same as ['contacts' => $contacts]
     }
 
     public function create()
     {
-        $companies = $this->company->pluck();
+        $companies = $this->userCompanies();
         $contact = new Contact();
 
         return view('contacts.create', compact('companies', 'contact'));
@@ -65,7 +57,7 @@ class ContactController extends Controller
 
     public function edit(Contact $contact)
     {
-        $companies = $this->company->pluck();
+        $companies = $this->userCompanies();
         // $contact = Contact::findOrFail($id);
         return view('contacts.edit', compact('companies', 'contact'));
     }
