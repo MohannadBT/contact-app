@@ -31,8 +31,8 @@
             {{-- <li class="nav-item"><a href="#" class="nav-link">Companies</a></li>
             <li class="nav-item active"><a href="{{ route('contacts.index') }}" class="nav-link">Contacts</a></li> --}}
             @auth
-             <li class="nav-item"><a href="#" class="nav-link">Companies</a></li>
-             <li class="nav-item active"><a href="#" class="nav-link">Contacts</a></li>
+            <li class="nav-item @if(request()->is('companies*')) active @endif"><a href="{{ route('companies.index') }}" class="nav-link">Companies</a></li>
+            <li class="nav-item @if(request()->is('contacts*')) active @endif"><a href="{{ route('contacts.index') }}" class="nav-link">Contacts</a></li>
             @endauth
           </ul>
           <ul class="navbar-nav ml-auto">
