@@ -12,8 +12,11 @@
         <input type="hidden" name="trash" value="{{ request()->query('trash') }}">
         <div class="row">
             <div class="col">
-              @includeif('contacts._company-selection')
+              {{-- @includeif('contacts._company-selection') --}}
               {{-- @includeWhen(!empty($companies), 'contacts._company-selection') same as the one above, or with includUnless(empty()) --}}
+             @isset($filterDropdown)
+                @includeIf($filterDropdown)
+             @endisset
             </div>
             <div class="col">
               <div class="input-group mb-3">
