@@ -15,3 +15,8 @@ function sortable($label, $column = null)
     $url = request()->fullUrlWithQuery(['sort_by' => $sortBy]);
     return "<a href='{$url}' class='sortable {$direction}'>{$label}</a>";
 }
+
+function getUndoRoute($name, $resource)
+{
+    return request()->missing('undo') ? route($name, [$resource->id, 'undo' => true]) : null;
+}
