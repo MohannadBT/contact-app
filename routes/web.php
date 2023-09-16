@@ -57,12 +57,48 @@ Route::middleware(['auth', 'verified'])->group(function () {
         'activities' => 'active'
     ]);
 });
+
 Route::get('/eagerload-multipe', function () {
     $users = User::with(['companies', 'contacts'])->get();
 
     foreach ($users as $user) {
         echo $user->name . ": ";
         echo $user->companies->count() . " companies, " . $user->contacts->count() . " contacts<br>";
+    }
+});
+Route::get('/eagerload-nested', function () {
+    $users = User::with(['companies', 'companies.contacts'])->get();
+    foreach ($users as $user) {
+        echo $user->name . "<br />";
+        foreach ($user->companies as $company) {
+            echo $company->name . " has " . $company->contacts->count() . " contacts<br />";
+        }
+        echo "<br />";
+    }
+});
+Route::get('/eagerload-constraint', function () {
+    $users = User::with(['companies' => function ($query) {
+        $query->where('email', 'like', '%.org');
+    }])->get();
+    foreach ($users as $user) {
+        echo $user->name . "<br />";
+        foreach ($user->companies as $company) {
+            echo $company->email . "<br />";
+        }
+        echo "<br />";
+    }
+});
+Route::get('/eagerload-lazy', function () {
+    $users = User::get();
+    $users->load(['companies' => function ($query) {
+        $query->orderBy('name');
+    }]);
+    foreach ($users as $user) {
+        echo $user->name . "<br />";
+        foreach ($user->companies as $company) {
+            echo $company->name . "<br />";
+        }
+        echo "<br />";
     }
 });
 /* To select some of the methods from a resource */
