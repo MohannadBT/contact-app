@@ -101,6 +101,41 @@ Route::get('/eagerload-lazy', function () {
         echo "<br />";
     }
 });
+Route::get('/eagerload-default', function () {
+    $users = User::get();
+    // $users = User::without('contacts', 'companies')->get();
+    foreach ($users as $user) {
+        echo $user->name . "<br />";
+        foreach ($user->companies as $company) {
+            echo $company->email . "<br />";
+        }
+        echo "<br />";
+    }
+});
+Route::get('/count-models', function () {
+    // $users = User::select(['name', 'email'])->withCount([
+    //     'contacts as contacts_number',
+    //     'companies as companies_count_end_with_gmail' => function ($query) {
+    //         $query->where('email', 'like', '%@gmail.com');
+    //     }
+    // ])->get();
+
+    // foreach ($users as $user) {
+    //     echo $user->name . "<br />";
+    //     echo $user->companies_count_end_with_gmail . " companies<br />";
+    //     echo $user->contacts_number . " contacts<br />";
+    //     echo "<br />";
+    // }
+    $users = User::get();
+    $users->loadCount(['companies' => function ($query) {
+        $query->where('email', 'like', '%@gmail.com');
+    }]);
+    foreach ($users as $user) {
+        echo $user->name . "<br />";
+        echo $user->companies_count . " companies<br />";
+        echo "<br />";
+    }
+});
 /* To select some of the methods from a resource */
 // Route::resource('/activities', ActivityController::class)->only([ // ->except(['index' , 'show'])  /* to show the same result */
 //     'create', 'store', 'update', 'edit', 'destroy'
