@@ -10,7 +10,7 @@ class DashboardController extends Controller
     // {
     //     $this->middleware(['auth']);
     // }
-    
+
     /**
      * Handle the incoming request.
      *
@@ -19,6 +19,8 @@ class DashboardController extends Controller
      */
     public function __invoke(Request $request)
     {
-        return view('dashboard');
+        $user = $request->user()->loadCount(['companies', 'contacts']);
+
+        return view('dashboard', compact('user'));
     }
 }
