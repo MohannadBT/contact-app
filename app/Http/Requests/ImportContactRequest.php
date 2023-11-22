@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ImportContactRequest extends FormRequest
@@ -27,5 +28,27 @@ class ImportContactRequest extends FormRequest
             'csv' => 'required',
             'company_id' => 'required|exists:companies,id',
         ];
+    }
+
+    public function getCsvRows(): array
+    {
+        $rows = [];
+
+        $path = Storage::putFile('csv-files', $this->file('csv'));
+        $stream = Storage::readStream($path);
+
+        $isHeader = true;
+        while ($row = fgetcsv($stream)) {
+            if ($isHeader) {
+                $isHeader = false;
+                continue;
+            }
+
+            $rows[] = $row;
+        }
+
+        Storage::delete($path);
+
+        return $rows;
     }
 }
