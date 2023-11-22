@@ -33,6 +33,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', DashboardController::class);
     Route::get('/settings/profile-information', ProfileController::class)->name('user-profile-information.edit');
     Route::get('/settings/password', PasswordController::class)->name('user-password.edit');
+    Route::get('/contacts/import', [ImportContactController::class, 'create'])->name('contacts.import.create');
+    Route::post('/contacts/import', [ImportContactController::class, 'store'])->name('contacts.import.store');
     Route::resource('/contacts', ContactController::class);
     Route::delete('/contacts/{contact}/restore', [ContactController::class, 'restore'])
         ->name('contacts.restore')
